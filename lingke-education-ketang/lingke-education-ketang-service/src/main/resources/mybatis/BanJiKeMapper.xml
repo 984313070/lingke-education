@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.ketang.mapper.BanJiKeMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.ketang.common.model.BanJiKe" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="clazzname" property="clazzname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="REAL" />
+    <result column="bjcountmark" property="bjcountmark" jdbcType="INTEGER" />
+    <result column="bjcountMarkmarketing" property="bjcountmarkmarketing" jdbcType="INTEGER" />
+    <result column="bjimg" property="bjimg" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="bjaddtime" property="bjaddtime" jdbcType="TIMESTAMP" />
+    <result column="bjouttime" property="bjouttime" jdbcType="TIMESTAMP" />
+    <result column="bjfenxiaostatus" property="bjfenxiaostatus" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="bjtype" property="bjtype" jdbcType="INTEGER" />
+    <result column="bjjigouid" property="bjjigouid" jdbcType="INTEGER" />
+    <result column="bjjianjie" property="bjjianjie" jdbcType="VARCHAR" />
+    <result column="bjzhanshiweizhi" property="bjzhanshiweizhi" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, clazzname, price, bjcountmark, bjcountMarkmarketing, bjimg, uid, bjaddtime, bjouttime, 
+    bjfenxiaostatus, status, bjtype, bjjigouid, bjjianjie, bjzhanshiweizhi
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gks_banjike
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gks_banjike
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.ketang.common.model.BanJiKe" >
+    insert into gks_banjike (id, clazzname, price, 
+      bjcountmark, bjcountMarkmarketing, bjimg, 
+      uid, bjaddtime, bjouttime, 
+      bjfenxiaostatus, status, bjtype, 
+      bjjigouid, bjjianjie, bjzhanshiweizhi
+      )
+    values (#{id,jdbcType=INTEGER}, #{clazzname,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
+      #{bjcountmark,jdbcType=INTEGER}, #{bjcountmarkmarketing,jdbcType=INTEGER}, #{bjimg,jdbcType=VARCHAR}, 
+      #{uid,jdbcType=INTEGER}, #{bjaddtime,jdbcType=TIMESTAMP}, #{bjouttime,jdbcType=TIMESTAMP}, 
+      #{bjfenxiaostatus,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{bjtype,jdbcType=INTEGER}, 
+      #{bjjigouid,jdbcType=INTEGER}, #{bjjianjie,jdbcType=VARCHAR}, #{bjzhanshiweizhi,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.ketang.common.model.BanJiKe" >
+    insert into gks_banjike
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clazzname != null" >
+        clazzname,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="bjcountmark != null" >
+        bjcountmark,
+      </if>
+      <if test="bjcountmarkmarketing != null" >
+        bjcountMarkmarketing,
+      </if>
+      <if test="bjimg != null" >
+        bjimg,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="bjaddtime != null" >
+        bjaddtime,
+      </if>
+      <if test="bjouttime != null" >
+        bjouttime,
+      </if>
+      <if test="bjfenxiaostatus != null" >
+        bjfenxiaostatus,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="bjtype != null" >
+        bjtype,
+      </if>
+      <if test="bjjigouid != null" >
+        bjjigouid,
+      </if>
+      <if test="bjjianjie != null" >
+        bjjianjie,
+      </if>
+      <if test="bjzhanshiweizhi != null" >
+        bjzhanshiweizhi,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="clazzname != null" >
+        #{clazzname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="bjcountmark != null" >
+        #{bjcountmark,jdbcType=INTEGER},
+      </if>
+      <if test="bjcountmarkmarketing != null" >
+        #{bjcountmarkmarketing,jdbcType=INTEGER},
+      </if>
+      <if test="bjimg != null" >
+        #{bjimg,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="bjaddtime != null" >
+        #{bjaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bjouttime != null" >
+        #{bjouttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bjfenxiaostatus != null" >
+        #{bjfenxiaostatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="bjtype != null" >
+        #{bjtype,jdbcType=INTEGER},
+      </if>
+      <if test="bjjigouid != null" >
+        #{bjjigouid,jdbcType=INTEGER},
+      </if>
+      <if test="bjjianjie != null" >
+        #{bjjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="bjzhanshiweizhi != null" >
+        #{bjzhanshiweizhi,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.ketang.common.model.BanJiKe" >
+    update gks_banjike
+    <set >
+      <if test="clazzname != null" >
+        clazzname = #{clazzname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="bjcountmark != null" >
+        bjcountmark = #{bjcountmark,jdbcType=INTEGER},
+      </if>
+      <if test="bjcountmarkmarketing != null" >
+        bjcountMarkmarketing = #{bjcountmarkmarketing,jdbcType=INTEGER},
+      </if>
+      <if test="bjimg != null" >
+        bjimg = #{bjimg,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="bjaddtime != null" >
+        bjaddtime = #{bjaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bjouttime != null" >
+        bjouttime = #{bjouttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bjfenxiaostatus != null" >
+        bjfenxiaostatus = #{bjfenxiaostatus,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="bjtype != null" >
+        bjtype = #{bjtype,jdbcType=INTEGER},
+      </if>
+      <if test="bjjigouid != null" >
+        bjjigouid = #{bjjigouid,jdbcType=INTEGER},
+      </if>
+      <if test="bjjianjie != null" >
+        bjjianjie = #{bjjianjie,jdbcType=VARCHAR},
+      </if>
+      <if test="bjzhanshiweizhi != null" >
+        bjzhanshiweizhi = #{bjzhanshiweizhi,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.ketang.common.model.BanJiKe" >
+    update gks_banjike
+    set clazzname = #{clazzname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      bjcountmark = #{bjcountmark,jdbcType=INTEGER},
+      bjcountMarkmarketing = #{bjcountmarkmarketing,jdbcType=INTEGER},
+      bjimg = #{bjimg,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      bjaddtime = #{bjaddtime,jdbcType=TIMESTAMP},
+      bjouttime = #{bjouttime,jdbcType=TIMESTAMP},
+      bjfenxiaostatus = #{bjfenxiaostatus,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      bjtype = #{bjtype,jdbcType=INTEGER},
+      bjjigouid = #{bjjigouid,jdbcType=INTEGER},
+      bjjianjie = #{bjjianjie,jdbcType=VARCHAR},
+      bjzhanshiweizhi = #{bjzhanshiweizhi,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updbjfenxiaostatus" parameterType="int">
+  update gks_banjike set bjfenxiaostatus=#{bjfenxiaostatus} where id=#{id}
+</update>
+  <update id="updbjdelstatus" parameterType="int">
+  update gks_banjike set status=#{status} where id=#{id}
+</update>
+  <select id="findcountbjliebiaoAll" resultType="int">
+     SELECT count(*) from gks_banjike bj
+     LEFT JOIN gks_user u on bj.uid=u.id
+     where status=0
+     <if test="banJiKe.id!=null">
+       and bj.id=#{banJiKe.id}
+     </if>
+     <if test="banJiKe.clazzname!=null">
+       and bj.clazzname like '%${banJiKe.clazzname}%'
+     </if>
+  </select>
+  <select id="findbjliebiaoAll" resultType="map">
+     SELECT bj.*,u.userName as username from gks_banjike bj
+     LEFT JOIN gks_user u on bj.uid=u.id
+     where status=0
+    <if test="banJiKe.id!=null">
+      and bj.id=#{banJiKe.id}
+    </if>
+    <if test="banJiKe.clazzname!=null">
+      and bj.clazzname like '%${banJiKe.clazzname}%'
+    </if>
+    LIMIT #{start},#{rows}
+  </select>
+
+  <select id="findclountbjhishouzhanAll" resultType="int">
+     SELECT count(*) from gks_banjike bj
+     LEFT JOIN gks_user u on bj.uid=u.id
+     where status=1
+  </select>
+  <select id="findbjhishouzhanAll" resultType="map">
+     SELECT bj.*,u.userName as username from gks_banjike bj
+     LEFT JOIN gks_user u on bj.uid=u.id
+     where status=1
+    LIMIT #{start},#{rows}
+  </select>
+</mapper>

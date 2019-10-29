@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.ketang.mapper.ZbkeMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.ketang.common.model.Zbke" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="zbketangname" property="zbketangname" jdbcType="VARCHAR" />
+    <result column="zbimg" property="zbimg" jdbcType="VARCHAR" />
+    <result column="zbmarketprice" property="zbmarketprice" jdbcType="REAL" />
+    <result column="zbsalesprice" property="zbsalesprice" jdbcType="REAL" />
+    <result column="organid" property="organid" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="teacherid" property="teacherid" jdbcType="INTEGER" />
+    <result column="grade" property="grade" jdbcType="INTEGER" />
+    <result column="zbcountmark" property="zbcountmark" jdbcType="INTEGER" />
+    <result column="zbcountMarkmarketing" property="zbcountmarkmarketing" jdbcType="INTEGER" />
+    <result column="zbputawaytime" property="zbputawaytime" jdbcType="TIMESTAMP" />
+    <result column="maxcomplication" property="maxcomplication" jdbcType="INTEGER" />
+    <result column="zbsiftstart" property="zbsiftstart" jdbcType="INTEGER" />
+    <result column="zbfeestart" property="zbfeestart" jdbcType="INTEGER" />
+    <result column="zbtypeid" property="zbtypeid" jdbcType="INTEGER" />
+    <result column="jinyongstatus" property="jinyongstatus" jdbcType="INTEGER" />
+    <result column="zbfenxiaostatus" property="zbfenxiaostatus" jdbcType="INTEGER" />
+    <result column="zbouttime" property="zbouttime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, zbketangname, zbimg, zbmarketprice, zbsalesprice, organid, uid, teacherid, grade, 
+    zbcountmark, zbcountMarkmarketing, zbputawaytime, maxcomplication, zbsiftstart, zbfeestart, 
+    zbtypeid, jinyongstatus, zbfenxiaostatus, zbouttime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gks_zbke
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gks_zbke
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.ketang.common.model.Zbke" >
+    insert into gks_zbke (id, zbketangname, zbimg, 
+      zbmarketprice, zbsalesprice, organid, 
+      uid, teacherid, grade, 
+      zbcountmark, zbcountMarkmarketing, zbputawaytime, 
+      maxcomplication, zbsiftstart, zbfeestart, 
+      zbtypeid, jinyongstatus, zbfenxiaostatus, 
+      zbouttime)
+    values (#{id,jdbcType=INTEGER}, #{zbketangname,jdbcType=VARCHAR}, #{zbimg,jdbcType=VARCHAR}, 
+      #{zbmarketprice,jdbcType=REAL}, #{zbsalesprice,jdbcType=REAL}, #{organid,jdbcType=INTEGER}, 
+      #{uid,jdbcType=INTEGER}, #{teacherid,jdbcType=INTEGER}, #{grade,jdbcType=INTEGER}, 
+      #{zbcountmark,jdbcType=INTEGER}, #{zbcountmarkmarketing,jdbcType=INTEGER}, #{zbputawaytime,jdbcType=TIMESTAMP}, 
+      #{maxcomplication,jdbcType=INTEGER}, #{zbsiftstart,jdbcType=INTEGER}, #{zbfeestart,jdbcType=INTEGER}, 
+      #{zbtypeid,jdbcType=INTEGER}, #{jinyongstatus,jdbcType=INTEGER}, #{zbfenxiaostatus,jdbcType=INTEGER}, 
+      #{zbouttime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.ketang.common.model.Zbke" >
+    insert into gks_zbke
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="zbketangname != null" >
+        zbketangname,
+      </if>
+      <if test="zbimg != null" >
+        zbimg,
+      </if>
+      <if test="zbmarketprice != null" >
+        zbmarketprice,
+      </if>
+      <if test="zbsalesprice != null" >
+        zbsalesprice,
+      </if>
+      <if test="organid != null" >
+        organid,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="teacherid != null" >
+        teacherid,
+      </if>
+      <if test="grade != null" >
+        grade,
+      </if>
+      <if test="zbcountmark != null" >
+        zbcountmark,
+      </if>
+      <if test="zbcountmarkmarketing != null" >
+        zbcountMarkmarketing,
+      </if>
+      <if test="zbputawaytime != null" >
+        zbputawaytime,
+      </if>
+      <if test="maxcomplication != null" >
+        maxcomplication,
+      </if>
+      <if test="zbsiftstart != null" >
+        zbsiftstart,
+      </if>
+      <if test="zbfeestart != null" >
+        zbfeestart,
+      </if>
+      <if test="zbtypeid != null" >
+        zbtypeid,
+      </if>
+      <if test="jinyongstatus != null" >
+        jinyongstatus,
+      </if>
+      <if test="zbfenxiaostatus != null" >
+        zbfenxiaostatus,
+      </if>
+      <if test="zbouttime != null" >
+        zbouttime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="zbketangname != null" >
+        #{zbketangname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbimg != null" >
+        #{zbimg,jdbcType=VARCHAR},
+      </if>
+      <if test="zbmarketprice != null" >
+        #{zbmarketprice,jdbcType=REAL},
+      </if>
+      <if test="zbsalesprice != null" >
+        #{zbsalesprice,jdbcType=REAL},
+      </if>
+      <if test="organid != null" >
+        #{organid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="zbcountmark != null" >
+        #{zbcountmark,jdbcType=INTEGER},
+      </if>
+      <if test="zbcountmarkmarketing != null" >
+        #{zbcountmarkmarketing,jdbcType=INTEGER},
+      </if>
+      <if test="zbputawaytime != null" >
+        #{zbputawaytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxcomplication != null" >
+        #{maxcomplication,jdbcType=INTEGER},
+      </if>
+      <if test="zbsiftstart != null" >
+        #{zbsiftstart,jdbcType=INTEGER},
+      </if>
+      <if test="zbfeestart != null" >
+        #{zbfeestart,jdbcType=INTEGER},
+      </if>
+      <if test="zbtypeid != null" >
+        #{zbtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="jinyongstatus != null" >
+        #{jinyongstatus,jdbcType=INTEGER},
+      </if>
+      <if test="zbfenxiaostatus != null" >
+        #{zbfenxiaostatus,jdbcType=INTEGER},
+      </if>
+      <if test="zbouttime != null" >
+        #{zbouttime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.ketang.common.model.Zbke" >
+    update gks_zbke
+    <set >
+      <if test="zbketangname != null" >
+        zbketangname = #{zbketangname,jdbcType=VARCHAR},
+      </if>
+      <if test="zbimg != null" >
+        zbimg = #{zbimg,jdbcType=VARCHAR},
+      </if>
+      <if test="zbmarketprice != null" >
+        zbmarketprice = #{zbmarketprice,jdbcType=REAL},
+      </if>
+      <if test="zbsalesprice != null" >
+        zbsalesprice = #{zbsalesprice,jdbcType=REAL},
+      </if>
+      <if test="organid != null" >
+        organid = #{organid,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="teacherid != null" >
+        teacherid = #{teacherid,jdbcType=INTEGER},
+      </if>
+      <if test="grade != null" >
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="zbcountmark != null" >
+        zbcountmark = #{zbcountmark,jdbcType=INTEGER},
+      </if>
+      <if test="zbcountmarkmarketing != null" >
+        zbcountMarkmarketing = #{zbcountmarkmarketing,jdbcType=INTEGER},
+      </if>
+      <if test="zbputawaytime != null" >
+        zbputawaytime = #{zbputawaytime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="maxcomplication != null" >
+        maxcomplication = #{maxcomplication,jdbcType=INTEGER},
+      </if>
+      <if test="zbsiftstart != null" >
+        zbsiftstart = #{zbsiftstart,jdbcType=INTEGER},
+      </if>
+      <if test="zbfeestart != null" >
+        zbfeestart = #{zbfeestart,jdbcType=INTEGER},
+      </if>
+      <if test="zbtypeid != null" >
+        zbtypeid = #{zbtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="jinyongstatus != null" >
+        jinyongstatus = #{jinyongstatus,jdbcType=INTEGER},
+      </if>
+      <if test="zbfenxiaostatus != null" >
+        zbfenxiaostatus = #{zbfenxiaostatus,jdbcType=INTEGER},
+      </if>
+      <if test="zbouttime != null" >
+        zbouttime = #{zbouttime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.ketang.common.model.Zbke" >
+    update gks_zbke
+    set zbketangname = #{zbketangname,jdbcType=VARCHAR},
+      zbimg = #{zbimg,jdbcType=VARCHAR},
+      zbmarketprice = #{zbmarketprice,jdbcType=REAL},
+      zbsalesprice = #{zbsalesprice,jdbcType=REAL},
+      organid = #{organid,jdbcType=INTEGER},
+      uid = #{uid,jdbcType=INTEGER},
+      teacherid = #{teacherid,jdbcType=INTEGER},
+      grade = #{grade,jdbcType=INTEGER},
+      zbcountmark = #{zbcountmark,jdbcType=INTEGER},
+      zbcountMarkmarketing = #{zbcountmarkmarketing,jdbcType=INTEGER},
+      zbputawaytime = #{zbputawaytime,jdbcType=TIMESTAMP},
+      maxcomplication = #{maxcomplication,jdbcType=INTEGER},
+      zbsiftstart = #{zbsiftstart,jdbcType=INTEGER},
+      zbfeestart = #{zbfeestart,jdbcType=INTEGER},
+      zbtypeid = #{zbtypeid,jdbcType=INTEGER},
+      jinyongstatus = #{jinyongstatus,jdbcType=INTEGER},
+      zbfenxiaostatus = #{zbfenxiaostatus,jdbcType=INTEGER},
+      zbouttime = #{zbouttime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findcountzbyishenAll" parameterType="com.jk.education.ketang.common.model.Zbke" resultType="int">
+    SELECT count(*) from gks_zbke zbk
+    LEFT JOIN gks_jigou jg on zbk.organid=jg.id
+    LEFT JOIN gks_teacher te on zbk.teacherid=te.id
+    LEFT JOIN gks_user u on zbk.uid=u.id
+    LEFT JOIN gks_zbtype zbt on zbk.zbtypeid=zbt.id
+    where jinyongstatus=0
+    <!--<where>
+      <if test="gksShipintantitiku.id != null" >
+        and s.id=#{gksShipintantitiku.id}
+      </if>
+      <if test="gksShipintantitiku.keticontent != null" >
+        and s.keticontent like '%${gksShipintantitiku.keticontent}%'
+      </if>
+      <if test="gksShipintantitiku.shititypeid != null and gksShipintantitiku.shititypeid != -1" >
+        and s.shititypeid = #{gksShipintantitiku.shititypeid}
+      </if>
+    </where>-->
+  </select>
+  <select id="findzbyishenAll" parameterType="com.jk.education.ketang.common.model.Zbke" resultType="com.jk.education.ketang.common.model.Zbke">
+  SELECT zbk.*,jg.organname,te.teacherName,u.userName,zbt.zbname from gks_zbke zbk
+  LEFT JOIN gks_jigou jg on zbk.organid=jg.id
+  LEFT JOIN gks_teacher te on zbk.teacherid=te.id
+  LEFT JOIN gks_user u on zbk.uid=u.id
+  LEFT JOIN gks_zbtype zbt on zbk.zbtypeid=zbt.id
+  where jinyongstatus=0
+  </select>
+<update id="updzbfenxiaostatus" parameterType="int">
+  update gks_zbke set zbfenxiaostatus=#{zbfenxiaostatus} where id=#{id}
+</update>
+  <update id="zbjinyong" parameterType="int">
+    update gks_zbke set jinyongstatus=#{jinyongstatus} where id=#{id}
+  </update>
+  <select id="findcountzbhuishouzhanAll" resultType="int">
+     SELECT count(*) from gks_zbke zbk
+      LEFT JOIN gks_jigou jg on zbk.organid=jg.id
+      LEFT JOIN gks_teacher te on zbk.teacherid=te.id
+      LEFT JOIN gks_user u on zbk.uid=u.id
+      LEFT JOIN gks_zbtype zbt on zbk.zbtypeid=zbt.id
+      where jinyongstatus=1
+  </select>
+  <select id="findzbhuishouzhanAll" resultType="map">
+     SELECT zbk.*,jg.organname,te.teacherName,u.userName,zbt.zbname from gks_zbke zbk
+      LEFT JOIN gks_jigou jg on zbk.organid=jg.id
+      LEFT JOIN gks_teacher te on zbk.teacherid=te.id
+      LEFT JOIN gks_user u on zbk.uid=u.id
+      LEFT JOIN gks_zbtype zbt on zbk.zbtypeid=zbt.id
+      where jinyongstatus=1
+  </select>
+</mapper>

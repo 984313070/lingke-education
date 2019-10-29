@@ -1,0 +1,460 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="http://try.51eduline.com/apps/admin/_static/css/admin.css" rel="stylesheet" type="text/css">
+    <script>
+        /**
+         * 全局变量
+         */
+        var SITE_URL  = 'http://try.51eduline.com';
+        var THEME_URL = 'http://try.51eduline.com/addons/theme/stv1/_static';
+        var APPNAME   = 'exams';
+        var UPLOAD_URL ='http://try.51eduline.com/data/upload';
+        var MID		  = '1678';
+        var UID		  = '1678';
+        var initNums  =  '140';
+        // Js语言变量
+        var LANG = new Array();
+        var info = {icon:0,time:1800,btn:false,title:'',closeBtn:0};
+        var success = {icon:1,time:1800,btn:false,title:'',closeBtn:0};
+        var error = {icon:2,time:1800,btn:false,title:'',closeBtn:0};
+    </script>
+    <script type="text/javascript" src="http://try.51eduline.com/addons/theme/stv1/_static/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/addons/theme/stv1/_static/js/core.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/apps/admin/_static/js/module.js"></script>
+    <script src="http://try.51eduline.com/addons/theme/stv1/_static/js/common.js"></script>
+    <script src="http://try.51eduline.com/addons/theme/stv1/_static/js/module.common.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/apps/admin/_static/js/admin.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/addons/theme/stv1/_static/js/ui.layer.js"></script>
+    <!--非admin应用的后台js脚本统一写在  模板风格对应的app目录下的admin.js中-->
+    <script type="text/javascript" src="http://try.51eduline.com/apps/exams/_static/js/admin.js"></script>
+    <style>
+        @font-face {font-family: 'iconfontNEW';src: url('http://try.51eduline.com/addons/theme/stv1/_static/icon/iconfontNEW.woff?v={$site.sys_version}');}
+        .iconfontNEW{font-family: iconfontNEW;font-style: normal;}
+    </style>
+</head>
+<body>
+<style type="text/css">
+    .add_options{margin:20px 0;background-color:#ABCE3F}
+    .add_options:hover{background-color:#97C215}
+</style>
+<div id="container" class="so_main">
+
+
+    <div class="tit_tab">
+        <ul>
+            <li><a href="../page/toGksshow" >已审</a></li>
+            <li><a href="../page/toGksdaishen" >待审</a></li>
+            <li><a href="../page/toGkshuishouzhan" >回收站</a></li>
+            <li><a href="#" >添加</a></li>
+            <li><a href="../page/toGkskejianku" >课件库</a></li>
+            <li><a href="../page/toGksshipintanti" >视频弹题题库</a></li>
+            <li><a href="../page/toGkscctongbushipin" >CC待同步视频库</a></li>
+            <li><a href="#" >导出</a></li>
+            <li><a href="../page/toGksaddshipin" class="on">添加</a></li>
+        </ul>
+    </div>
+
+    <form method="POST" action="http://try.51eduline.com/index.php?app=exams&mod=AdminQuestion&act=add&exams_module_type=problemQuestionBank" id="detail_form" name="detail_form">
+        <div class="form2">
+
+            <dl class="lineD">
+                <dt><font color="red"> * </font>类型：</dt>
+                <dd>
+                    <select name="exams_question_type">
+                        <option value="0">请选择</option>
+                        <option value="radio|1">单选题</option>
+                        <option value="multiselect|2">多选题</option>
+                        <option value="judge|3">判断题</option>
+                        <option value="radio|6">名词解释</option>
+                    </select>
+                </dd>
+            </dl>
+
+            <dl class="lineD" id="select_exams_subject">
+                <dt><font color="red"> * </font>分类：</dt>
+                <dd>
+                    <div id="exams_subject_id"></div>
+
+                    <script type="text/javascript" src = "http://try.51eduline.com/addons/theme/stv1/_static/js/plugins/core.mzVideoLevel.js"></script>
+
+                    <style>
+                        .mzLevel{padding:4px;margin-right:5px;}
+                    </style>
+                    <script>
+                        $('#exams_subject_id').mzVideoLevel({
+                            'table':'exams_subject',
+                            'isadmin':true,//是否是后台
+                            'defaultids':'',
+                        },function(fun){
+                        });
+                    </script>
+                    <a></a>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt><font color="red"> * </font>考点：</dt>
+                <dd id="select_point">
+                    请选择
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt><font color="red"> * </font>版块：</dt>
+                <dd>
+                    视频弹题
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt><font color="red"> * </font>难度：</dt>
+                <dd>
+                    <select name="exams_level">
+                        <option value="1">简单</option><option value="2">普通</option><option value="3">困难</option>                    </select>
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt><font color="red"> * </font>内容：</dt>
+                <dd>
+                    <!--发布样式 begi-->
+                    <script id="content" name="content" type="text/plain" style="width:99%;height:200px; margin-bottom:10px;"></script>
+                    <script type="text/javascript">
+                        var basePath = 'http://try.51eduline.com/addons/theme/stv1/_static/js/ueditor1_4_3_3/';
+                        var js=document.scripts;
+                        var jsPath;
+                        window.isLoad = 0;
+                        for(var i=js.length;i>0;i--){
+                            if(js[i-1].src.indexOf("ueditor.all.min.js")>-1){
+                                window.isLoad = 1;
+                                setTimeout(function(){
+                                    Editor_content = UE.ui.Editor({
+                                        toolbars:JSON.parse('[["source","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","fontfamily","fontsize","justifyleft","indent","justifycenter","justifyright","justifyjustify","|","link","unlink","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","kityformula"]]'),
+                                        zIndex:1,
+                                        wordCount:parseInt('0') > 0 ? true : false,
+                                        maximumWords:parseInt('0'),
+                                        UEDITOR_HOME_URL:basePath,
+                                        serverUrl:basePath+'/php/controller.php',
+                                    });
+                                    Editor_content.render('content');
+
+                                },400);
+                                break;
+                            }
+                        }
+                        // 优化:已经在其他页面加载了ueditor,再通过异步加载的ueditor
+                        if(window.isLoad === 0){
+                            requireJS(basePath+"/ueditor.config.js",function(){
+                                requireJS(basePath+"/ueditor.all.min.js",function(){
+                                    requireJS(basePath+"/lang/zh-cn/zh-cn.js",function(){
+                                        // 如果需要显示公式插件
+                                        if("1" == 1){
+                                            requireJS(basePath+"/third-party/kityformula-plugin/addKityFormulaDialog.js",function(){
+                                                requireJS(basePath+"/third-party/kityformula-plugin/getKfContent.js",function(){
+                                                    requireJS(basePath+"/third-party/kityformula-plugin/defaultFilterFix.js",function(){
+                                                        Editor_content = UE.ui.Editor({
+                                                            toolbars:JSON.parse('[["source","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","fontfamily","fontsize","justifyleft","indent","justifycenter","justifyright","justifyjustify","|","link","unlink","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","kityformula"]]'),
+                                                            zIndex:1,
+                                                            wordCount:parseInt('0') > 0 ? true : false,
+                                                            maximumWords:parseInt('0'),
+                                                            UEDITOR_HOME_URL:basePath,
+                                                            serverUrl:basePath+'/php/controller.php',
+                                                        });
+                                                        Editor_content.render('content');
+                                                    });
+                                                });
+                                            });
+                                        }else{
+                                            Editor_content = UE.ui.Editor({
+                                                toolbars:JSON.parse('[["source","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","fontfamily","fontsize","justifyleft","indent","justifycenter","justifyright","justifyjustify","|","link","unlink","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","kityformula"]]'),
+                                                zIndex:1,
+                                                wordCount:parseInt('0') > 0 ? true : false,
+                                                maximumWords:parseInt('0'),
+                                                UEDITOR_HOME_URL:basePath,
+                                                serverUrl:basePath+'/php/controller.php',
+                                            });
+                                            Editor_content.render('content');
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                    </script>                </dd>
+            </dl>
+            <dl class="lineD dl_answer_options" style="display: none;">
+                <dt><font color="red"> * </font>选项内容：</dt>
+                <dd id="showAnswerOption">
+                </dd>
+            </dl>
+
+            <dl class="lineD dl_analyze">
+                <dt>解析：</dt>
+                <dd>
+                    <!--发布样式 begi-->
+                    <script id="analyze" name="analyze" type="text/plain" style="width:99%;height:200px; margin-bottom:10px;"></script>
+                    <script type="text/javascript">
+                        var basePath = 'http://try.51eduline.com/addons/theme/stv1/_static/js/ueditor1_4_3_3/';
+                        var js=document.scripts;
+                        var jsPath;
+                        window.isLoad = 0;
+                        for(var i=js.length;i>0;i--){
+                            if(js[i-1].src.indexOf("ueditor.all.min.js")>-1){
+                                window.isLoad = 1;
+                                setTimeout(function(){
+                                    Editor_analyze = UE.ui.Editor({
+                                        toolbars:JSON.parse('[["source","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","fontfamily","fontsize","justifyleft","indent","justifycenter","justifyright","justifyjustify","|","link","unlink","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","kityformula"]]'),
+                                        zIndex:1,
+                                        wordCount:parseInt('0') > 0 ? true : false,
+                                        maximumWords:parseInt('0'),
+                                        UEDITOR_HOME_URL:basePath,
+                                        serverUrl:basePath+'/php/controller.php',
+                                    });
+                                    Editor_analyze.render('analyze');
+
+                                },400);
+                                break;
+                            }
+                        }
+                        // 优化:已经在其他页面加载了ueditor,再通过异步加载的ueditor
+                        if(window.isLoad === 0){
+                            requireJS(basePath+"/ueditor.config.js",function(){
+                                requireJS(basePath+"/ueditor.all.min.js",function(){
+                                    requireJS(basePath+"/lang/zh-cn/zh-cn.js",function(){
+                                        // 如果需要显示公式插件
+                                        if("1" == 1){
+                                            requireJS(basePath+"/third-party/kityformula-plugin/addKityFormulaDialog.js",function(){
+                                                requireJS(basePath+"/third-party/kityformula-plugin/getKfContent.js",function(){
+                                                    requireJS(basePath+"/third-party/kityformula-plugin/defaultFilterFix.js",function(){
+                                                        Editor_analyze = UE.ui.Editor({
+                                                            toolbars:JSON.parse('[["source","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","fontfamily","fontsize","justifyleft","indent","justifycenter","justifyright","justifyjustify","|","link","unlink","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","kityformula"]]'),
+                                                            zIndex:1,
+                                                            wordCount:parseInt('0') > 0 ? true : false,
+                                                            maximumWords:parseInt('0'),
+                                                            UEDITOR_HOME_URL:basePath,
+                                                            serverUrl:basePath+'/php/controller.php',
+                                                        });
+                                                        Editor_analyze.render('analyze');
+                                                    });
+                                                });
+                                            });
+                                        }else{
+                                            Editor_analyze = UE.ui.Editor({
+                                                toolbars:JSON.parse('[["source","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","fontfamily","fontsize","justifyleft","indent","justifycenter","justifyright","justifyjustify","|","link","unlink","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","kityformula"]]'),
+                                                zIndex:1,
+                                                wordCount:parseInt('0') > 0 ? true : false,
+                                                maximumWords:parseInt('0'),
+                                                UEDITOR_HOME_URL:basePath,
+                                                serverUrl:basePath+'/php/controller.php',
+                                            });
+                                            Editor_analyze.render('analyze');
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                    </script>                </dd>
+            </dl>
+
+
+            <div class="page_btm">
+                <input type="submit" class="btn_b" value="保存" id="form_submit">
+            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+    $(function(){
+        // 监听选择专业
+        $("select[id='exams_subject']").live('change',function(){
+            var subject_id = $(this).val();
+            if(subject_id == 0){
+                ui.error("请选择分类");
+                $("#select_point").html("请选择分类");
+                return false;
+            }
+            // 加载考点
+            $.get('http://try.51eduline.com/index.php?app=exams&mod=AdminPoint&act=loadPonit',{subject_id:subject_id},function(res){
+                if(typeof(res) != 'object'){
+                    try{
+                        var res = JSON.parse(res);
+                    }catch(e){
+                        ui.error("获取考点错误");
+                        return false;
+                    }
+                }
+
+                if(res.status == 1){
+                    var html = '<select name="exams_point_id">';
+                    $.each(res.data,function(i,v){
+                        html += '<option value="'+v.exams_point_id+'">'+v.title+'</option>';
+                    })
+                    html += '</select>';
+                    $("#select_point").html(html);
+                }else{
+                    //ui.error(res.message);
+                    $("#select_point").html(res.message);
+                    return false;
+                }
+
+            });
+        });
+        // 监听切换试题类型
+        $("select[name='exams_question_type']").change(function(){
+            var exams_question_type = $(this).val();
+            $.get('http://try.51eduline.com/index.php?app=exams&mod=AdminQuestion&act=getAnswerTpl',{question_type_key:exams_question_type,totalCount:0,limit:2},function(res){
+                if(typeof(res) != 'object'){
+                    try{
+                        var res = JSON.parse(res);
+                    }catch(e){
+                        ui.error("请选择类型");
+                        return false;
+                    }
+                }
+                if(res.status == 1){
+                    $("#showAnswerOption").html(res.html);
+                    if(res.html == ""){
+                        $(".dl_answer_options").hide();
+                    }else{
+                        $(".dl_answer_options").show();
+                    }
+                }
+            });
+        });
+
+        // 添加选项
+        $(".add_options").live("click",function(){
+            var _this = $(this);
+            if(_this.attr('disable') == true){
+                return false;
+            }
+            _this.attr('disable',true);
+            var exams_question_type = $("select[name='exams_question_type']").val();
+
+            $.get('http://try.51eduline.com/index.php?app=exams&mod=AdminQuestion&act=getAnswerTpl',{question_type_key:exams_question_type,totalCount:$("#showAnswerOption").children(".option_item").length,limit:1},function(res){
+                if(typeof(res) != 'object'){
+                    try{
+                        var res = JSON.parse(res);
+                    }catch(e){
+                        ui.error("添加选项出错,请重新尝试");
+                        return false;
+                    }
+                }
+                if(res.status == 1){
+                    $("#showAnswerOption").append(res.html);
+                    _this.parent().remove();
+                }else{
+                    ui.error(res.message);
+                    return false;
+                }
+            });
+        });
+
+        var opt_i = { 'A':0, 'B':1, 'C':2, 'D':3, 'E':4, 'F':5, 'G':6, 'H':7 };
+        var word  = [ 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H' ];
+        // 删除选项
+        $(".del_option").live("click",function(){
+            var _this   = $(this);
+            var opt     = _this.attr('data');
+            var index   = opt_i[opt];
+            $(".option_item").each(function(i,e){
+                // 移除当前项
+                if ( i == index ) {
+                    e.remove();
+                    var te = $("textarea[name='answer_options_" + word[i] + "']");
+                    te.remove();
+                } else if ( i > index ){
+                    // 修改之后的选项的名称
+                    var curr = $("#opt_item_" + word[i]);
+                    var p    = curr.children('p');
+                    p.children('input').val( word[i-1] );
+                    p.children('span').html( word[i-1] );
+                    p.children('i').attr( 'id', 'del_option_' + word[i-1]).attr('data', word[i-1] );
+                    curr.children('div').attr( 'id', 'answer_options_' + word[i-1] );
+                    curr.attr( "id", "opt_item_" + word[i-1] );
+                    // 修改textarea的name及id，以便后台获取值
+                    $("textarea[name='answer_options_" + word[i]+ "']").attr('name', 'answer_options_' + word[i-1] ).attr('id', 'ueditor_textarea_answer_options_' + word[i-1] );
+                }
+            });
+        });
+        // 提交验证
+        $("#form_submit").click(function(){
+
+            var ques_type = $("select[name='exams_question_type']").val();
+            if( '0' == ques_type ){
+                ui.error("请选择试题类型");
+                return false;
+            }
+
+            var cont = $("[name='content']").val();
+            if( '' == cont || typeof(cont) == "undefined" ){
+                ui.error("请输入试题内容");
+                return false;
+            }
+
+            var true_answer_option  = false;
+            var true_answer         = false;
+            var answer_index        = { 0:'A', 1:'B', 2:'C', 3:'D', 4:'E', 5:'F', 6:'G', 7:'H' };
+            // 单选题
+            $("input[name^='answer_true_option']").each(function(index){
+                if($(this).attr('checked')){
+                    true_answer_option  = true;
+                    var key             = "answer_options_"+answer_index[index];
+                    var this_val        = $("[name="+key+"]").val();
+                    if( this_val ){
+                        true_answer     = true;
+                    }else{
+                        true_answer     = false;
+                        return false;
+                    }
+                }
+            });
+            // 多选题
+            $("input[name^='answer_true_option[]']").each(function(index){
+                if($(this).attr('checked')){
+                    true_answer_option  = true;
+                    var key             = "answer_options_"+answer_index[index];
+                    var this_val        = $("[name="+key+"]").val();
+                    if( this_val ){
+                        true_answer     = true;
+                    }else{
+                        true_answer     = false;
+                        return false;
+                    }
+                }
+            });
+
+            if( (ques_type.indexOf('completion') == -1 && ques_type.indexOf('essays') == -1) && !true_answer_option ){
+                ui.error("请选择正确答案");
+                return false;
+            }
+            if( (ques_type.indexOf('completion') == -1 && ques_type.indexOf('essays') == -1) && !true_answer ){
+                ui.error("请输入正确答案内容");
+                return false;
+            }
+        });
+    });
+</script>
+<script type="text/javascript">
+    document.onkeydown=function (e) {
+        e=window.event||e;
+        var key = e.keyCode;
+        if ((e.ctrlKey && key == 82) || key == 116) {
+            parent.MainIframe.location.reload();
+            if(document.all) {
+                e.keyCode = 0;
+                e.returnValue = false;
+            }else {
+                e.cancelBubble = true;
+                e.preventDefault();
+            }
+        }
+    }
+    /**
+     * 初始化对象
+     */
+//表格样式
+    $(document).ready(function(){
+        admin.bindTrOn();});
+</script>
+
+</body>
+</html>

@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.ketang.mapper.GksKejiankuMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.ketang.common.model.GksKejianku" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="coursewareName" property="coursewarename" jdbcType="VARCHAR" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="memoryAddress" property="memoryaddress" jdbcType="VARCHAR" />
+    <result column="textTypeId" property="texttypeid" jdbcType="INTEGER" />
+    <result column="kjaddTime" property="kjaddtime" jdbcType="TIMESTAMP" />
+    <result column="tongbuStatus" property="tongbustatus" jdbcType="INTEGER" />
+    <result column="kjStatus" property="kjstatus" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, coursewareName, uid, memoryAddress, textTypeId, kjaddTime, tongbuStatus, kjStatus
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gks_kejianku
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gks_kejianku
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.ketang.common.model.GksKejianku" >
+    insert into gks_kejianku (id, coursewareName, uid, 
+      memoryAddress, textTypeId, kjaddTime, 
+      tongbuStatus, kjStatus)
+    values (#{id,jdbcType=INTEGER}, #{coursewarename,jdbcType=VARCHAR}, #{uid,jdbcType=INTEGER}, 
+      #{memoryaddress,jdbcType=VARCHAR}, #{texttypeid,jdbcType=INTEGER}, #{kjaddtime,jdbcType=TIMESTAMP}, 
+      #{tongbustatus,jdbcType=INTEGER}, #{kjstatus,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.ketang.common.model.GksKejianku" >
+    insert into gks_kejianku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="coursewarename != null" >
+        coursewareName,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="memoryaddress != null" >
+        memoryAddress,
+      </if>
+      <if test="texttypeid != null" >
+        textTypeId,
+      </if>
+      <if test="kjaddtime != null" >
+        kjaddTime,
+      </if>
+      <if test="tongbustatus != null" >
+        tongbuStatus,
+      </if>
+      <if test="kjstatus != null" >
+        kjStatus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="coursewarename != null" >
+        #{coursewarename,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="memoryaddress != null" >
+        #{memoryaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="texttypeid != null" >
+        #{texttypeid,jdbcType=INTEGER},
+      </if>
+      <if test="kjaddtime != null" >
+        #{kjaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tongbustatus != null" >
+        #{tongbustatus,jdbcType=INTEGER},
+      </if>
+      <if test="kjstatus != null" >
+        #{kjstatus,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.ketang.common.model.GksKejianku" >
+    update gks_kejianku
+    <set >
+      <if test="coursewarename != null" >
+        coursewareName = #{coursewarename,jdbcType=VARCHAR},
+      </if>
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="memoryaddress != null" >
+        memoryAddress = #{memoryaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="texttypeid != null" >
+        textTypeId = #{texttypeid,jdbcType=INTEGER},
+      </if>
+      <if test="kjaddtime != null" >
+        kjaddTime = #{kjaddtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tongbustatus != null" >
+        tongbuStatus = #{tongbustatus,jdbcType=INTEGER},
+      </if>
+      <if test="kjstatus != null" >
+        kjStatus = #{kjstatus,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.ketang.common.model.GksKejianku" >
+    update gks_kejianku
+    set coursewareName = #{coursewarename,jdbcType=VARCHAR},
+      uid = #{uid,jdbcType=INTEGER},
+      memoryAddress = #{memoryaddress,jdbcType=VARCHAR},
+      textTypeId = #{texttypeid,jdbcType=INTEGER},
+      kjaddTime = #{kjaddtime,jdbcType=TIMESTAMP},
+      tongbuStatus = #{tongbustatus,jdbcType=INTEGER},
+      kjStatus = #{kjstatus,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findTotalAll" parameterType="com.jk.education.ketang.common.model.GksKejianku" resultType="int">
+    SELECT count(*) from  gks_kejianku kju
+    LEFT JOIN gks_kejiankutype kt ON kju.textTypeId=kt.id
+    LEFT JOIN gks_user u ON kju.uid=u.id
+    <where>
+      <if test="gksKejianku.id != null" >
+        and kju.id=#{gksKejianku.id}
+      </if>
+      <if test="gksKejianku.coursewarename != null" >
+        and kju.coursewareName like '%${gksKejianku.coursewarename}%'
+      </if>
+      <if test="gksKejianku.username != null" >
+        and u.userName like '%${gksKejianku.username}%'
+      </if>
+      <if test="gksKejianku.texttypeid != null" >
+        and kju.textTypeId=#{gksKejianku.texttypeid}
+      </if>
+      <if test="gksKejianku.kjstatus != null" >
+        and kjStatus=#{gksKejianku.kjstatus}
+      </if>
+    </where>
+  </select>
+  <select id="findketangkuAll"  resultType="com.jk.education.ketang.common.model.GksKejianku">
+    SELECT kju.*,u.userName,kt.textTypeName from  gks_kejianku kju
+    LEFT JOIN gks_kejiankutype kt ON kju.textTypeId=kt.id
+    LEFT JOIN gks_user u ON kju.uid=u.id
+    <where>
+    <if test="gksKejianku.id != null" >
+      and kju.id=#{gksKejianku.id}
+    </if>
+   <if test="gksKejianku.coursewarename != null" >
+     and kju.coursewareName like '%${gksKejianku.coursewarename}%'
+    </if>
+    <if test="gksKejianku.username != null" >
+     and u.userName like '%${gksKejianku.username}%'
+    </if>
+    <if test="gksKejianku.texttypeid != null" >
+      and kju.textTypeId=#{gksKejianku.texttypeid}
+    </if>
+    <if test="gksKejianku.kjstatus != null" >
+      and kjStatus=#{gksKejianku.kjstatus}
+    </if>
+    </where>
+    LIMIT #{start},#{rows}
+  </select>
+  <update id="kejiankujinyong" parameterType="int">
+    update gks_kejianku set kjStatus=#{kjstatus} where id=#{id}
+  </update>
+  <delete id="delKejianku" parameterType="int">
+    delete from  gks_kejianku where id=#{id}
+  </delete>
+</mapper>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.ketang.mapper.GksShipintantitikuMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.ketang.common.model.GksShipintantitiku" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="keticontent" property="keticontent" jdbcType="VARCHAR" />
+    <result column="shititypeid" property="shititypeid" jdbcType="INTEGER" />
+    <result column="kaodianid" property="kaodianid" jdbcType="INTEGER" />
+    <result column="shitinanduid" property="shitinanduid" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, keticontent, shititypeid, kaodianid, shitinanduid
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from gks_shipintantitiku
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from gks_shipintantitiku
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.ketang.common.model.GksShipintantitiku" >
+    insert into gks_shipintantitiku (id, keticontent, shititypeid, 
+      kaodianid, shitinanduid)
+    values (#{id,jdbcType=INTEGER}, #{keticontent,jdbcType=VARCHAR}, #{shititypeid,jdbcType=INTEGER}, 
+      #{kaodianid,jdbcType=INTEGER}, #{shitinanduid,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.ketang.common.model.GksShipintantitiku" >
+    insert into gks_shipintantitiku
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="keticontent != null" >
+        keticontent,
+      </if>
+      <if test="shititypeid != null" >
+        shititypeid,
+      </if>
+      <if test="kaodianid != null" >
+        kaodianid,
+      </if>
+      <if test="shitinanduid != null" >
+        shitinanduid,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="keticontent != null" >
+        #{keticontent,jdbcType=VARCHAR},
+      </if>
+      <if test="shititypeid != null" >
+        #{shititypeid,jdbcType=INTEGER},
+      </if>
+      <if test="kaodianid != null" >
+        #{kaodianid,jdbcType=INTEGER},
+      </if>
+      <if test="shitinanduid != null" >
+        #{shitinanduid,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.ketang.common.model.GksShipintantitiku" >
+    update gks_shipintantitiku
+    <set >
+      <if test="keticontent != null" >
+        keticontent = #{keticontent,jdbcType=VARCHAR},
+      </if>
+      <if test="shititypeid != null" >
+        shititypeid = #{shititypeid,jdbcType=INTEGER},
+      </if>
+      <if test="kaodianid != null" >
+        kaodianid = #{kaodianid,jdbcType=INTEGER},
+      </if>
+      <if test="shitinanduid != null" >
+        shitinanduid = #{shitinanduid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.ketang.common.model.GksShipintantitiku" >
+    update gks_shipintantitiku
+    set keticontent = #{keticontent,jdbcType=VARCHAR},
+      shititypeid = #{shititypeid,jdbcType=INTEGER},
+      kaodianid = #{kaodianid,jdbcType=INTEGER},
+      shitinanduid = #{shitinanduid,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select id="findshipintantiTotalAll" parameterType="com.jk.education.ketang.common.model.GksShipintantitiku" resultType="int">
+    SELECT count(*) from gks_shipintantitiku s
+    LEFT JOIN majj_shiti st on s.shitinanduid=st.id
+    LEFT JOIN majj_kaodian kd on s.kaodianid=kd.id
+    LEFT JOIN majj_shitinandu nd on s.shitinanduid=nd.id
+    LEFT JOIN majj_fenleitype fl on kd.typeId=fl.id
+    LEFT JOIN majj_fenleitype fl1 on fl.pid=fl1.id
+    LEFT JOIN majj_fenleitype fl2 on fl1.pid=fl2.id
+    <where>
+      <if test="gksShipintantitiku.id != null" >
+        and s.id=#{gksShipintantitiku.id}
+      </if>
+      <if test="gksShipintantitiku.keticontent != null" >
+        and s.keticontent like '%${gksShipintantitiku.keticontent}%'
+      </if>
+      <if test="gksShipintantitiku.shititypeid != null and gksShipintantitiku.shititypeid != -1" >
+        and s.shititypeid = #{gksShipintantitiku.shititypeid}
+      </if>
+    </where>
+  </select>
+  <select id="findshipintantiAll" resultType="com.jk.education.ketang.common.model.GksShipintantitiku">
+    SELECT s.id,s.keticontent,st.typename,kd.kaodianname,nd.name as shitiname,fl.name as feileiname,fl1.name as feileiname1 ,fl2.name as feileiname2 from gks_shipintantitiku s
+    LEFT JOIN majj_shiti st on s.shitinanduid=st.id
+    LEFT JOIN majj_kaodian kd on s.kaodianid=kd.id
+    LEFT JOIN majj_shitinandu nd on s.shitinanduid=nd.id
+    LEFT JOIN majj_fenleitype fl on kd.typeId=fl.id
+    LEFT JOIN majj_fenleitype fl1 on fl.pid=fl1.id
+    LEFT JOIN majj_fenleitype fl2 on fl1.pid=fl2.id
+    <where>
+      <if test="gksShipintantitiku.id != null" >
+        and s.id=#{gksShipintantitiku.id}
+      </if>
+      <if test="gksShipintantitiku.keticontent != null" >
+        and s.keticontent like '%${gksShipintantitiku.keticontent}%'
+      </if>
+      <if test="gksShipintantitiku.shititypeid != null and gksShipintantitiku.shititypeid != -1" >
+        and s.shititypeid = #{gksShipintantitiku.shititypeid}
+      </if>
+    </where>
+    LIMIT #{start},#{rows}
+  </select>
+  <delete id="delshipintanti" parameterType="int">
+    delete from gks_shipintantitiku where id=#{id}
+  </delete>
+</mapper>

@@ -1,0 +1,563 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="http://try.51eduline.com/apps/admin/_static/css/admin.css" rel="stylesheet" type="text/css">
+    <script>
+        /**
+         * 全局变量
+         */
+        var SITE_URL  = 'http://try.51eduline.com';
+        var THEME_URL = 'http://try.51eduline.com/addons/theme/stv1/_static';
+        var APPNAME   = 'course';
+        var UPLOAD_URL ='http://try.51eduline.com/data/upload';
+        var MID		  = '1678';
+        var UID		  = '1678';
+        var initNums  =  '140';
+        // Js语言变量
+        var LANG = new Array();
+        var info = {icon:0,time:1800,btn:false,title:'',closeBtn:0};
+        var success = {icon:1,time:1800,btn:false,title:'',closeBtn:0};
+        var error = {icon:2,time:1800,btn:false,title:'',closeBtn:0};
+    </script>
+    <script type="text/javascript" src="http://try.51eduline.com/addons/theme/stv1/_static/js/jquery-1.8.3.min.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/addons/theme/stv1/_static/js/core.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/apps/admin/_static/js/module.js"></script>
+    <script src="http://try.51eduline.com/addons/theme/stv1/_static/js/common.js"></script>
+    <script src="http://try.51eduline.com/addons/theme/stv1/_static/js/module.common.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/apps/admin/_static/js/admin.js"></script>
+    <script type="text/javascript" src="http://try.51eduline.com/addons/theme/stv1/_static/js/ui.layer.js"></script>
+    <!--非admin应用的后台js脚本统一写在  模板风格对应的app目录下的admin.js中-->
+    <script type="text/javascript" src="http://try.51eduline.com/apps/course/_static/js/admin.js"></script>
+    <style>
+        @font-face {font-family: 'iconfontNEW';src: url('http://try.51eduline.com/addons/theme/stv1/_static/icon/iconfontNEW.woff?v={$site.sys_version}');}
+        .iconfontNEW{font-family: iconfontNEW;font-style: normal;}
+    </style>
+</head>
+<body>
+<div id="container" class="so_main">
+    <div class="tit_tab">
+            <ul>
+                <li><a href="../page/toGksshow" >已审</a></li>
+                <li><a href="../page/toGksdaishen" >待审</a></li>
+                <li><a href="../page/toGkshuishouzhan" >回收站</a></li>
+                <li><a href="#" >添加</a></li>
+                <li><a href="../page/toGkskejianku" >课件库</a></li>
+                <li><a href="../page/toGksshipintanti" >视频弹题题库</a></li>
+                <li><a href="../page/toGkscctongbushipin" >CC待同步视频库</a></li>
+                <li><a href="#" >导出</a></li>
+                <li><a href="../page/toGksaddkejian" class="on">添加课件</a></li>
+                <!-- 已审 -->
+            </ul>
+
+    </div>
+
+    <form method="POST" action="http://try.51eduline.com/index.php?app=course&mod=AdminVideo&act=addVideoLib" id="detail_form" name="detail_form" onsubmit="return j_validateCallback(this,checkForm,post_callback)">
+        <input type="hidden" name="systemdata_list" value="video_Admin" class="s-txt">
+        <input type="hidden" name="systemdata_key" value="addVideo" class="s-txt">
+        <input type="hidden" name="pageTitle" value="添加视频" class="s-txt">
+        <input type="hidden" name="id" value="" />
+        <div class="form2">
+
+            <dl class="lineD">
+                <dt><font color="red"> * </font>课件名称：</dt>
+                <dd>
+                    <input name="title" type="text" value="" class="s-txt">
+                </dd>
+            </dl>
+
+            <dl class="lineD">
+                <dt>类型：</dt>
+                <dd>
+                    <label><input type="radio" name="type" value="1" checked="checked"  >视频 </label>
+                    <label><input type="radio" name="type" value="3"  >文本 </label>
+                    <label><input type="radio" name="type" value="5"  >视频链接 </label>
+                </dd>
+            </dl>
+
+            <dl class="lineD"  id="video"  >
+                <dt><font color="red"> * </font>课件：</dt>
+                <dd>
+                    <div>
+                        <div class="swfupload-box">
+                            <p>点击“浏览”按钮，选择您要上传的文件后，</p>
+                            <p>再确认提交上传，系统将自动上传并在完成后提示您。</p>
+
+                            <form id="addvform" name="addvform" action="" method="get" onsubmit="alert('提交视频');">
+                                <input id="cc_title" disabled="disabled" name="cc_title" value="51571205617" type="hidden"/>
+                                <input id="tag" name="tag" disabled="disabled" value="Eduline51571205617" type="hidden"/>
+                                <textarea id="description" name="description" rows="5" cols="30" disabled="disabled" style="display: none;">Eduline视频简介51571205617</textarea>
+                                <input id="videoid_cc" name="videoid" type="hidden" value="" disabled="disabled"/>
+
+                                <span style="float:left;">
+                                            <input  name="videofile" id="videofile" disabled="disabled" type="text" style="height: 15px;"/>
+                                        </span>
+                                <div style="float:left; position:relative; width:80px; height:25px;">
+                                    <div id="swfDiv" style="width:80px;height:25px;position:absolute;z-index:2;"></div>
+                                    <input type="button" value="浏览" id="btn_width_cc" style="width:80px;height:25px;position:absolute;z-index:1;" />
+                                </div><br><br>
+                                <p>一次只能上传一个视频文件！</p>
+                                <p>支持流行视频格式flv，f4v，mp4</p>
+
+                                <div class="fieldset flash" id="fsUploadProgressCC" style="display:none;">
+                                    <div class="progressWrapper">
+                                        <div class="progressContainer green">
+                                            <div class="progressName" id="cc_file_name"></div>
+                                            <div class="progressBarStatus" id="progress_cc"></div>
+                                            <div class="progressBarInProgress" id="progress_bar_cc"></div>
+                                        </div>
+                                    </div>
+                                </div><br>
+
+                                <div >
+                                    <input type="button" value="提交上传" onclick="submitCCVideo();" style="width: 100px;height: 29px;background: #fff;font-weight: bold;">
+                                    <input type="button" value="取消上传" onclick="delCCVideo();" style="margin-left: 5px; font-size: 8pt; height: 29px;">
+                                </div>
+                            </form>
+                        </div>
+
+                        <style>
+                            .progressName { display: inline; position: absolute; top: 4px; top: 3px 9; left: 12px; z-index: 999; overflow: hidden; }
+                            .progressBarInProgress, .progressBarComplete, .progressBarError { position: absolute; top: 0; z-index: 99; font-size: 0; width: 0; height: 25px; background-color: #7fd26aab; }
+                            .progressWrapper { width: 400px;position: relative; height: 25px; overflow: hidden; border-bottom: 1px solid #E8E8E8; }
+                            .progressBarStatus { margin-top: 2px; font-size: 7pt; font-family: Arial; text-align: left; white-space: nowrap; position: absolute; right: 15px;z-index:100;}
+                        </style>
+                        <script type="text/javascript" src = "http://try.51eduline.com/addons/theme/stv1/_static/js/ccuploader/js/swfobject.js"></script>
+
+                        <script type="text/javascript">
+                            $(function() {
+                                function flashChecker() {
+                                    var hasFlash = 0;　　　　 //是否安装了flash
+                                    var flashVersion = 0;　　 //flash版本
+                                    if (document.all) {
+                                        var swf = new ActiveXObject('ShockwaveFlash.ShockwaveFlash');
+                                        if (swf) {
+                                            hasFlash = 1;
+                                            VSwf = swf.GetVariable("$version");
+                                            flashVersion = parseInt(VSwf.split(" ")[1].split(",")[0]);
+                                        }
+                                    } else {
+                                        if (navigator.plugins && navigator.plugins.length > 0) {
+                                            var swf = navigator.plugins["Shockwave Flash"];
+                                            if (swf) {
+                                                hasFlash = 1;
+                                                var words = swf.description.split(" ");
+                                                for (var i = 0; i < words.length; ++i) {
+                                                    if (isNaN(parseInt(words[i]))) continue;
+                                                    flashVersion = parseInt(words[i]);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    return {
+                                        f: hasFlash,
+                                        v: flashVersion
+                                    };
+                                }
+                                var fls = flashChecker();
+                                var s = "";
+                                if (!fls.f) {
+                                    $("#swfDiv").parents(".swfupload-box").html('<p style="margin-top: 5px;font-size: 14px;line-height:20px;background: #ff0;width: max-content;">由于您未安装flash播放器视频无法播放，点击<a style="color:#e73c31;" target="MainIframe" href="http://www.adobe.com/go/getflash">这里</a>安装</p>');
+                                    return false;
+                                }
+                            });
+
+                            // 加载上传flash ------------- start
+                            var swfobj = new SWFObject('http://try.51eduline.com/addons/theme/stv1/_static/js/ccuploader/uploader.swf', 'uploadswf', '80', '25', '8');
+                            swfobj.addVariable("progress_interval", 1); //  上传进度通知间隔时长（单位：s）
+                            var notify_url = "http://try.51eduline.com/cc/notify.html";
+                            swfobj.addVariable("notify_url", notify_url); //  上传视频后回调接口
+                            swfobj.addParam('allowFullscreen', 'true');
+                            swfobj.addParam('allowScriptAccess', 'always');
+                            swfobj.addParam('wmode', 'transparent');
+                            swfobj.write('swfDiv');
+                            // 加载上传flash ------------- end
+                            //加载全局变量
+                            var cc_videoid = '';
+                            var videofilename = '';
+                            var cc_title = '';
+                            //-------------------
+                            //调用者：flash
+                            //功能：选中上传文件，获取文件名函数
+                            //时间：2010-12-22
+                            //说明：用户可以加入相应逻辑
+                            //-------------------
+                            function on_spark_selected_file(filename) {
+                                document.getElementById("videofile").value = filename;
+                            }
+                            //-------------------
+                            //调用者：flash
+                            //功能：验证上传是否正常进行函数
+                            //时间：2010-12-22
+                            //说明：用户可以加入相应逻辑
+                            //-------------------
+                            function on_spark_upload_validated(status, videoid) {
+                                if (status == "OK") {
+                                    document.getElementById("videoid_cc").value = videoid;
+                                    document.getElementById("videokey").value = videoid;
+                                    cc_videoid = videoid;
+                                    //            document.getElementById("videoidshow").innerHTML = videoid;
+                                } else if (status == "NETWORK_ERROR") {
+                                    ui.error("网络错误");
+                                } else {
+                                    ui.error("api错误码：" + status);
+                                }
+                            }
+                            //-------------------
+                            //调用者：flash
+                            //功能：通知上传进度函数
+                            //时间：2010-12-22
+                            //说明：用户可以加入相应逻辑
+                            //-------------------
+                            function on_spark_upload_progress(progress) {
+                                var uploadProgress = document.getElementById("progress_cc");
+                                var uploadProgressBar = document.getElementById("progress_bar_cc");
+                                uploadProgressBar.style.width = progress + "%";
+                                if (progress == -1) {
+                                    uploadProgress.innerHTML = "上传出错：" + progress;
+                                } else if (progress == 100) {
+                                    uploadProgress.innerHTML = "100% 上传完成";
+                                    $("#form_submit").removeAttr('style').attr('data-disabled','1');
+                                } else {
+                                    uploadProgress.innerHTML = progress + "%";
+                                }
+                            }
+
+                            function positionUploadSWF() {
+                                document.getElementById("swfDiv").style.width = document.getElementById("btn_width").style.width;
+                                document.getElementById("swfDiv").style.height = document.getElementById("btn_width").style.height;
+                            }
+
+                            function submitCCVideo() {
+                                $("#form_submit").attr('style','background: #9e9e9e').attr('data-disabled','0');
+
+                                var videofile = document.getElementById("videofile").value;
+                                videofilename = videofile;
+                                var videoid_cc = document.getElementById("videoid_cc").value;
+                                var title = encodeURIComponent(document.getElementById("cc_title").value, "utf-8");
+                                cc_title = title;
+                                if (videofile != '') {
+                                    document.getElementById("fsUploadProgressCC").style.display = "block";
+                                } else {
+                                    ui.error('请选择要上传的文件');
+                                    return false;
+                                }
+                                if (videoid_cc != '') {
+                                    ui.error('您正在上传的文件队列过多.\n您最多选择一个文件.');
+                                }
+                                var tag = encodeURIComponent(document.getElementById("tag").value, "utf-8");
+                                var description = encodeURIComponent(document.getElementById("description").value, "utf-8");
+                                if(videofile.length >= 20){
+                                    var str_sl = '...';
+                                }
+                                document.getElementById("cc_file_name").innerHTML = videofile.substring(0,20)+str_sl;
+                                var url = "http://try.51eduline.com/cc/getuploadurl.html" + "?title=" + title + "&tag=" + tag + "&description=" + description;
+                                var req = getAjax();
+                                req.open("GET", url, true);
+                                req.onreadystatechange = function() {
+                                    if (req.readyState == 4) {
+                                        if (req.status == 200) {
+                                            var re = req.responseText; //获取返回的内容
+                                            document.getElementById("uploadswf").start_upload(re); //   调用flash上传函数
+                                            //                    document.getElementById("request_params").innerHTML = re;
+                                        }
+                                    }
+                                };
+                                req.send(null);
+                            }
+
+                            function delCCVideo() {
+                                ui.confirm('确定取消上传？', {
+                                    yes: function() {
+                                        $.post("http://try.51eduline.com/index.php?app=course&mod=AdminVideo&act=delCCVideo", {
+                                            cc_videoid: cc_videoid,
+                                            videofilename: videofilename,
+                                            out_title: cc_title
+                                        }, function(e) {
+                                            if (e.status == 1) {
+                                                document.getElementById("fsUploadProgressCC").style.display = "none";
+                                                document.getElementById("cc_file_name").innerHTML = '';
+                                                document.getElementById("progress_cc").innerHTML = '';
+                                                var uploadProgressBar = document.getElementById("progress_bar_cc");
+                                                uploadProgressBar.style.width = "0%";
+                                                ui.success(e.info);
+                                                window.location.reload();
+                                            } else {
+                                                ui.error(e.info);
+                                            }
+                                        }, 'json');
+                                    }
+                                });
+                            }
+
+                            function getAjax() {
+                                var oHttpReq = null;
+                                if (window.XMLHttpRequest) {
+                                    oHttpReq = new XMLHttpRequest;
+                                    if (oHttpReq.overrideMimeType) {
+                                        oHttpReq.overrideMimeType("text/xml");
+                                    }
+                                } else if (window.ActiveXObject) {
+                                    try {
+                                        oHttpReq = new ActiveXObject("Msxml2.XMLHTTP");
+                                    } catch (e) {
+                                        oHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+                                    }
+                                } else if (window.createRequest) {
+                                    oHttpReq = window.createRequest();
+                                } else {
+                                    oHttpReq = new XMLHttpRequest();
+                                }
+                                return oHttpReq;
+                            }
+
+                        </script>
+                    </div>
+                </dd>
+            </dl>
+
+            <dl id="doc" style="display: none;" >
+                <dt><font color="red"> * </font>上传文件：</dt>
+                <dd>
+                    <!--发布样式 begi-->
+                    <script id="content" name="content" type="text/plain" style="width:90%;height:200px; margin-bottom:10px;"></script>
+                    <script type="text/javascript">
+                        var basePath = 'http://try.51eduline.com/addons/theme/stv1/_static/js/ueditor1_4_3_3/';
+                        var js=document.scripts;
+                        var jsPath;
+                        window.isLoad = 0;
+                        for(var i=js.length;i>0;i--){
+                            if(js[i-1].src.indexOf("ueditor.all.min.js")>-1){
+                                window.isLoad = 1;
+                                setTimeout(function(){
+                                    Editor_content = UE.ui.Editor({
+                                        toolbars:JSON.parse('[["fullscreen","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","insertorderedlist","insertunorderedlist","selectall","cleardoc","|","rowspacingtop","rowspacingbottom","lineheight","|","customstyle","paragraph","fontfamily","fontsize","|","directionalityltr","directionalityrtl","indent","|","justifyleft","justifycenter","justifyright","justifyjustify","|","touppercase","tolowercase","|","link","unlink","anchor","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","gmap","insertframe","insertcode","pagebreak","template","background","|","horizontal","date","time","spechars","snapscreen","wordimage","|","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","searchreplace","drafts","help","kityformula"]]'),
+                                        zIndex:1,
+                                        wordCount:parseInt('0') > 0 ? true : false,
+                                        maximumWords:parseInt('0'),
+                                        UEDITOR_HOME_URL:basePath,
+                                        serverUrl:basePath+'/php/controller.php',
+                                    });
+                                    Editor_content.render('content');
+
+                                },400);
+                                break;
+                            }
+                        }
+                        // 优化:已经在其他页面加载了ueditor,再通过异步加载的ueditor
+                        if(window.isLoad === 0){
+                            requireJS(basePath+"/ueditor.config.js",function(){
+                                requireJS(basePath+"/ueditor.all.min.js",function(){
+                                    requireJS(basePath+"/lang/zh-cn/zh-cn.js",function(){
+                                        // 如果需要显示公式插件
+                                        if("1" == 1){
+                                            requireJS(basePath+"/third-party/kityformula-plugin/addKityFormulaDialog.js",function(){
+                                                requireJS(basePath+"/third-party/kityformula-plugin/getKfContent.js",function(){
+                                                    requireJS(basePath+"/third-party/kityformula-plugin/defaultFilterFix.js",function(){
+                                                        Editor_content = UE.ui.Editor({
+                                                            toolbars:JSON.parse('[["fullscreen","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","insertorderedlist","insertunorderedlist","selectall","cleardoc","|","rowspacingtop","rowspacingbottom","lineheight","|","customstyle","paragraph","fontfamily","fontsize","|","directionalityltr","directionalityrtl","indent","|","justifyleft","justifycenter","justifyright","justifyjustify","|","touppercase","tolowercase","|","link","unlink","anchor","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","gmap","insertframe","insertcode","pagebreak","template","background","|","horizontal","date","time","spechars","snapscreen","wordimage","|","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","searchreplace","drafts","help","kityformula"]]'),
+                                                            zIndex:1,
+                                                            wordCount:parseInt('0') > 0 ? true : false,
+                                                            maximumWords:parseInt('0'),
+                                                            UEDITOR_HOME_URL:basePath,
+                                                            serverUrl:basePath+'/php/controller.php',
+                                                        });
+                                                        Editor_content.render('content');
+                                                    });
+                                                });
+                                            });
+                                        }else{
+                                            Editor_content = UE.ui.Editor({
+                                                toolbars:JSON.parse('[["fullscreen","|","undo","redo","|","bold","italic","underline","fontborder","strikethrough","superscript","subscript","removeformat","formatmatch","autotypeset","blockquote","pasteplain","|","forecolor","backcolor","insertorderedlist","insertunorderedlist","selectall","cleardoc","|","rowspacingtop","rowspacingbottom","lineheight","|","customstyle","paragraph","fontfamily","fontsize","|","directionalityltr","directionalityrtl","indent","|","justifyleft","justifycenter","justifyright","justifyjustify","|","touppercase","tolowercase","|","link","unlink","anchor","|","imagenone","imageleft","imageright","imagecenter","|","simpleupload","insertimage","emotion","scrawl","insertvideo","music","attachment","map","gmap","insertframe","insertcode","pagebreak","template","background","|","horizontal","date","time","spechars","snapscreen","wordimage","|","inserttable","deletetable","insertparagraphbeforetable","insertrow","deleterow","insertcol","deletecol","mergecells","mergeright","mergedown","splittocells","splittorows","splittocols","charts","|","print","preview","searchreplace","drafts","help","kityformula"]]'),
+                                                zIndex:1,
+                                                wordCount:parseInt('0') > 0 ? true : false,
+                                                maximumWords:parseInt('0'),
+                                                UEDITOR_HOME_URL:basePath,
+                                                serverUrl:basePath+'/php/controller.php',
+                                            });
+                                            Editor_content.render('content');
+                                        }
+                                    });
+                                });
+                            });
+                        }
+                    </script>                </dd>
+            </dl>
+
+            <dl class="lineD" id="video_url" style="display: none;" >
+                <dt><font color="red"> * </font>链接地址：</dt>
+                <dd>
+                    <input name="video_url" type="text"  class="s-txt" style="width: 300px;">
+                    <p>仅限MP4,m3u8格式的视频链接</p>
+                </dd>
+            </dl>
+
+            <dl class="lineD" id="duration" style="display: none;" >
+                <dt>音视频时长：</dt>
+                <dd>
+                    <input name="duration" type="text" value="" class="s-txt" placeholder="00:00:00">
+                </dd>
+            </dl>
+
+            <input id="videokey" name="videokey" type="hidden" value="">
+            <input name="video_address" type="hidden" value="">
+
+            <div class="page_btm">
+                <input type="button" class="btn_b" value="保存" data-disabled="0" style="background: #9e9e9e;" id="form_submit">            </div>
+        </div>
+    </form>
+</div>
+<script type="text/javascript">
+
+    $(function(){
+        var segment_open = !!0;
+        var upload_room = parseInt('4');
+        var hide_duration = upload_room == 4;
+        $('#duration').css('display',(segment_open || hide_duration ) ? 'none' : 'block');
+        $('#form_submit').click(function () {
+            var form = $('#detail_form');
+            var type = form.find('input:radio[name="type"]:checked').val();
+            // var config = parseInt('4');
+            var title = form.find('input[name="title"]').val();
+            var video_url = form.find('input[name="video_url"]').val();
+            if('' == title){
+                ui.error("视频名称不能为空");
+                return false;
+            }
+
+            if(type == 5 && video_url == ''){
+                ui.error("请填写链接地址");
+                return false;
+            }
+
+            var disabled = $(this).attr('data-disabled');
+            if(disabled == 1){
+                $('#detail_form').submit();
+            } else {
+                ui.error("请先上传文件或等待文件上传完成");
+            }
+
+        });
+
+
+        $(":radio").click(function(){
+            var v = $(this).val();
+            if(v == 3) {
+                $("#form_submit").removeAttr('style').attr('data-disabled','1');
+                $('#video').css('display','none');
+                $('#duration').css('display','none');
+                $('#doc').css('display','block');
+                $("#video_url").css('display','none');
+            } else if(v == 4){
+                $("#form_submit").removeAttr('style').attr('data-disabled','1');
+                $('#doc').css('display','none');
+                $('#video').css('display','block');
+                $('#duration').css('display','none');
+                $("#video_url").css('display','none');
+            } else if(v == 5){
+                $("#form_submit").removeAttr('style').attr('data-disabled','1');
+                $('#doc').css('display','none');
+                $('#video').css('display','none');
+                $('#duration').css('display','block');
+                $("#video_url").css('display','block');
+            } else {
+                $("#form_submit").attr('style','background: #9e9e9e;').attr('data-disabled','0');
+                $('#doc').css('display','none');
+                $('#video').css('display','block');
+                $('#duration').css('display',(segment_open || hide_duration ) ? 'none' : 'block');
+                $("#video_url").css('display','none');
+            }
+
+        });
+    });
+
+    function j_validateCallback(form,call,callback) {
+        var $form = $(form);
+        if(typeof call != 'undefined' && call instanceof Function){
+            $i = call($form);
+            if(!$i){
+                return false;
+            }
+        }
+        var _submitFn = function(){
+            $.ajax({
+                type: form.method || 'POST',
+                url:$form.attr("action"),
+                data:$form.serializeArray(),
+                dataType:"json",
+                cache: false,
+                success: function(xMLHttpRequest, textStatus, errorThrown){
+                    if(typeof callback != 'undefined' && callback instanceof Function){
+                        callback($form,xMLHttpRequest);
+                    }
+                },
+                error: function(xhr, ajaxOptions, thrownError){
+                    ui.error("未知错误!");
+                }
+            });
+        }
+        _submitFn();
+        return false;
+    }
+
+    function checkForm(){
+        var disabled = $('#form_submit').attr('data-disabled');
+        if(disabled == 1){
+            return true;
+        }
+    }
+
+    function post_callback(_form,data){
+        if(data.status != undefined){
+            if(data.status == '0'){
+                ui.error(data.info);
+            } else {
+                ui.success(data.info);
+                window.location.href = U('course/AdminVideo/videoLib')+"&tabHash=videoLib";
+            }
+        }
+    }
+
+    function callback(data){
+
+        $("#"+data.input_id+"").remove();
+        $("#image_"+data.input_id).append(
+            '<div id='+data.input_id+'>'
+            +'<img style="max-width:100px;padding:2px; border:1px solid #ccc" src='+UPLOAD_URL+'/'+data.src+' />'
+            +'</div>'
+        ).find('input:file').val('');
+        $("#"+data.input_id+"_ids").val(data.attach_id);
+    }
+    function filecallback(data){
+        $("#old_coursefile_ids").remove();
+        $("#coursefile_ids").val(data.attach_id);
+    }
+
+
+</script>
+<script type="text/javascript">
+    document.onkeydown=function (e) {
+        e=window.event||e;
+        var key = e.keyCode;
+        if ((e.ctrlKey && key == 82) || key == 116) {
+            parent.MainIframe.location.reload();
+            if(document.all) {
+                e.keyCode = 0;
+                e.returnValue = false;
+            }else {
+                e.cancelBubble = true;
+                e.preventDefault();
+            }
+        }
+    }
+    /**
+     * 初始化对象
+     */
+//表格样式
+    $(document).ready(function(){
+        admin.bindTrOn();});
+</script>
+
+</body>
+</html>
