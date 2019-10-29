@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.shopping.mapper.BykShoppingAddressMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.shopping.common.model.BykShoppingAddress" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="provinceId" property="provinceid" jdbcType="INTEGER" />
+    <result column="cityId" property="cityid" jdbcType="INTEGER" />
+    <result column="countyId" property="countyid" jdbcType="INTEGER" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="defaultAddress" property="defaultaddress" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, provinceId, cityId, countyId, address, name, photo, status, defaultAddress
+  </sql>
+  <sql id="whereSql">
+    <if test="address.uid != null and address.uid != ''">
+      and bsa.uid = #{address.uid}
+    </if>
+    <if test="address.name != null and address.name != ''">
+      and bsa.name like '%${address.name}%'
+    </if>
+    <if test="address.photo != null and address.photo != ''">
+      and bsa.photo like '%${address.photo}%'
+    </if>
+  </sql>
+  <select id="findShoppingAddressCount" resultType="long">
+    select count(*) from
+    byk_shopping_address bsa,china c1,china c2 ,china c3 where bsa.provinceId = c1.Id
+    and bsa.cityId = c2.id and bsa.countyId = c3.Id
+    <include refid="whereSql"></include>
+  </select>
+  <select id="findShoppingAddressList" resultType="com.jk.education.shopping.common.model.BykShoppingAddress">
+    select bsa.*,c1.Name as province,c2.Name as city,c3.Name as county from
+    byk_shopping_address bsa,china c1,china c2 ,china c3 where bsa.provinceId = c1.Id
+    and bsa.cityId = c2.id and bsa.countyId = c3.Id
+    <include refid="whereSql"></include>
+    limit #{firstNum},#{lastNum}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from byk_shopping_address
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from byk_shopping_address
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.shopping.common.model.BykShoppingAddress" >
+    insert into byk_shopping_address (id, uid, provinceId, 
+      cityId, countyId, address, 
+      name, photo, status, 
+      defaultAddress)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{provinceid,jdbcType=INTEGER}, 
+      #{cityid,jdbcType=INTEGER}, #{countyid,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER}, 
+      #{defaultaddress,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.shopping.common.model.BykShoppingAddress" >
+    insert into byk_shopping_address
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="provinceid != null" >
+        provinceId,
+      </if>
+      <if test="cityid != null" >
+        cityId,
+      </if>
+      <if test="countyid != null" >
+        countyId,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="defaultaddress != null" >
+        defaultAddress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="provinceid != null" >
+        #{provinceid,jdbcType=INTEGER},
+      </if>
+      <if test="cityid != null" >
+        #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="countyid != null" >
+        #{countyid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="defaultaddress != null" >
+        #{defaultaddress,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.shopping.common.model.BykShoppingAddress" >
+    update byk_shopping_address
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="provinceid != null" >
+        provinceId = #{provinceid,jdbcType=INTEGER},
+      </if>
+      <if test="cityid != null" >
+        cityId = #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="countyid != null" >
+        countyId = #{countyid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="defaultaddress != null" >
+        defaultAddress = #{defaultaddress,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.shopping.common.model.BykShoppingAddress" >
+    update byk_shopping_address
+    set uid = #{uid,jdbcType=INTEGER},
+      provinceId = #{provinceid,jdbcType=INTEGER},
+      cityId = #{cityid,jdbcType=INTEGER},
+      countyId = #{countyid,jdbcType=INTEGER},
+      address = #{address,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      defaultAddress = #{defaultaddress,jdbcType=INTEGER}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

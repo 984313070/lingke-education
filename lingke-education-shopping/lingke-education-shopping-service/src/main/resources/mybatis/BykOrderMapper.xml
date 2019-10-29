@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.shopping.mapper.BykOrderMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.shopping.common.model.BykOrder" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="goodsId" property="goodsid" jdbcType="INTEGER" />
+    <result column="goodsName" property="goodsname" jdbcType="VARCHAR" />
+    <result column="price" property="price" jdbcType="INTEGER" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="freight" property="freight" jdbcType="INTEGER" />
+    <result column="payAudit" property="payaudit" jdbcType="INTEGER" />
+    <result column="payWay" property="payway" jdbcType="INTEGER" />
+    <result column="payAmount" property="payamount" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="photo" property="photo" jdbcType="VARCHAR" />
+    <result column="provinceId" property="provinceid" jdbcType="INTEGER" />
+    <result column="cityId" property="cityid" jdbcType="INTEGER" />
+    <result column="countyId" property="countyid" jdbcType="INTEGER" />
+    <result column="detailedAddress" property="detailedaddress" jdbcType="VARCHAR" />
+    <result column="regTime" property="regtime" jdbcType="TIMESTAMP" />
+    <result column="companyId" property="companyid" jdbcType="INTEGER" />
+    <result column="expressNumber" property="expressnumber" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, account, goodsId, goodsName, price, count, freight, payAudit, payWay, payAmount, 
+    name, photo, provinceId, cityId, countyId, detailedAddress, regTime, companyId, expressNumber
+  </sql>
+  <sql id="whereSql">
+    <if test="order.id != null and order.id != ''">
+      and bo.id = #{order.id}
+    </if>
+    <if test="order.name != null and order.name != ''">
+      and bo.name like '%${order.name}%'
+    </if>
+    <if test="order.goodsId != null and order.goodsId != ''">
+      and bo.goodsId = #{order.goodsId}
+    </if>
+    <if test="order.price != null and order.price != ''">
+      and bo.price = #{order.price}
+    </if>
+    <if test="order.freight != null and order.freight != ''">
+      and bo.freight = #{order.freight}
+    </if>
+    <if test="order.regTime != null">
+      and bo.regTime > #{order.regTime}
+    </if>
+    <if test="order.endTime != null">
+      and bo.regTime &lt; #{order.endTime}
+    </if>
+  </sql>
+  <select id="findOrderCount" resultType="long">
+    select count(*) from byk_order bo,china c1,china c2 ,china c3  where bo.provinceId = c1.Id and bo.cityId = c2.id and bo.countyId = c3.Id
+    <include refid="whereSql"></include>
+</select>
+  <select id="findOrderList" resultType="com.jk.education.shopping.common.model.BykOrder">
+    select bo.*,c1.Name as province,c2.Name as city,c3.Name as county from byk_order bo,china c1,china c2 ,china c3  where bo.provinceId = c1.Id and bo.cityId = c2.id and bo.countyId = c3.Id
+    <include refid="whereSql"></include>
+    limit #{firstNum},#{lastNum}
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from byk_order
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from byk_order
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.shopping.common.model.BykOrder" >
+    insert into byk_order (id, uid, account, 
+      goodsId, goodsName, price, 
+      count, freight, payAudit, 
+      payWay, payAmount, name, 
+      photo, provinceId, cityId, 
+      countyId, detailedAddress, regTime, 
+      companyId, expressNumber)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{account,jdbcType=VARCHAR}, 
+      #{goodsid,jdbcType=INTEGER}, #{goodsname,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, 
+      #{count,jdbcType=INTEGER}, #{freight,jdbcType=INTEGER}, #{payaudit,jdbcType=INTEGER}, 
+      #{payway,jdbcType=INTEGER}, #{payamount,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{photo,jdbcType=VARCHAR}, #{provinceid,jdbcType=INTEGER}, #{cityid,jdbcType=INTEGER}, 
+      #{countyid,jdbcType=INTEGER}, #{detailedaddress,jdbcType=VARCHAR}, #{regtime,jdbcType=TIMESTAMP}, 
+      #{companyid,jdbcType=INTEGER}, #{expressnumber,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.shopping.common.model.BykOrder" >
+    insert into byk_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="goodsid != null" >
+        goodsId,
+      </if>
+      <if test="goodsname != null" >
+        goodsName,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="payaudit != null" >
+        payAudit,
+      </if>
+      <if test="payway != null" >
+        payWay,
+      </if>
+      <if test="payamount != null" >
+        payAmount,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="photo != null" >
+        photo,
+      </if>
+      <if test="provinceid != null" >
+        provinceId,
+      </if>
+      <if test="cityid != null" >
+        cityId,
+      </if>
+      <if test="countyid != null" >
+        countyId,
+      </if>
+      <if test="detailedaddress != null" >
+        detailedAddress,
+      </if>
+      <if test="regtime != null" >
+        regTime,
+      </if>
+      <if test="companyid != null" >
+        companyId,
+      </if>
+      <if test="expressnumber != null" >
+        expressNumber,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null" >
+        #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsname != null" >
+        #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="payaudit != null" >
+        #{payaudit,jdbcType=INTEGER},
+      </if>
+      <if test="payway != null" >
+        #{payway,jdbcType=INTEGER},
+      </if>
+      <if test="payamount != null" >
+        #{payamount,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceid != null" >
+        #{provinceid,jdbcType=INTEGER},
+      </if>
+      <if test="cityid != null" >
+        #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="countyid != null" >
+        #{countyid,jdbcType=INTEGER},
+      </if>
+      <if test="detailedaddress != null" >
+        #{detailedaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null" >
+        #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyid != null" >
+        #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="expressnumber != null" >
+        #{expressnumber,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.shopping.common.model.BykOrder" >
+    update byk_order
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsid != null" >
+        goodsId = #{goodsid,jdbcType=INTEGER},
+      </if>
+      <if test="goodsname != null" >
+        goodsName = #{goodsname,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=INTEGER},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="payaudit != null" >
+        payAudit = #{payaudit,jdbcType=INTEGER},
+      </if>
+      <if test="payway != null" >
+        payWay = #{payway,jdbcType=INTEGER},
+      </if>
+      <if test="payamount != null" >
+        payAmount = #{payamount,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="photo != null" >
+        photo = #{photo,jdbcType=VARCHAR},
+      </if>
+      <if test="provinceid != null" >
+        provinceId = #{provinceid,jdbcType=INTEGER},
+      </if>
+      <if test="cityid != null" >
+        cityId = #{cityid,jdbcType=INTEGER},
+      </if>
+      <if test="countyid != null" >
+        countyId = #{countyid,jdbcType=INTEGER},
+      </if>
+      <if test="detailedaddress != null" >
+        detailedAddress = #{detailedaddress,jdbcType=VARCHAR},
+      </if>
+      <if test="regtime != null" >
+        regTime = #{regtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="companyid != null" >
+        companyId = #{companyid,jdbcType=INTEGER},
+      </if>
+      <if test="expressnumber != null" >
+        expressNumber = #{expressnumber,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.shopping.common.model.BykOrder" >
+    update byk_order
+    set uid = #{uid,jdbcType=INTEGER},
+      account = #{account,jdbcType=VARCHAR},
+      goodsId = #{goodsid,jdbcType=INTEGER},
+      goodsName = #{goodsname,jdbcType=VARCHAR},
+      price = #{price,jdbcType=INTEGER},
+      count = #{count,jdbcType=INTEGER},
+      freight = #{freight,jdbcType=INTEGER},
+      payAudit = #{payaudit,jdbcType=INTEGER},
+      payWay = #{payway,jdbcType=INTEGER},
+      payAmount = #{payamount,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      photo = #{photo,jdbcType=VARCHAR},
+      provinceId = #{provinceid,jdbcType=INTEGER},
+      cityId = #{cityid,jdbcType=INTEGER},
+      countyId = #{countyid,jdbcType=INTEGER},
+      detailedAddress = #{detailedaddress,jdbcType=VARCHAR},
+      regTime = #{regtime,jdbcType=TIMESTAMP},
+      companyId = #{companyid,jdbcType=INTEGER},
+      expressNumber = #{expressnumber,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.jk.education.shopping.mapper.BykGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.jk.education.shopping.common.model.BykGoods" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="uid" property="uid" jdbcType="INTEGER" />
+    <result column="uname" property="uname" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="maxTypeId" property="maxtypeid" jdbcType="INTEGER" />
+    <result column="typeId" property="typeid" jdbcType="INTEGER" />
+    <result column="minTypeId" property="mintypeid" jdbcType="INTEGER" />
+    <result column="typeName" property="typename" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="intro" property="intro" jdbcType="VARCHAR" />
+    <result column="info" property="info" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="conversionPrice" property="conversionprice" jdbcType="INTEGER" />
+    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+    <result column="freight" property="freight" jdbcType="INTEGER" />
+    <result column="essence" property="essence" jdbcType="INTEGER" />
+    <result column="regTime" property="regtime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, uid, uname, name, maxTypeId, typeId, minTypeId, typeName, url, intro, info, status,
+    conversionPrice, inventory, freight, essence, regTime
+  </sql>
+  <sql id="whereSql">
+    <if test="id != null and id != ''">
+      and id = #{id}
+    </if>
+    <if test="name != null and name != ''">
+      and name like '%${name}%'
+    </if>
+    <if test="conversionprice != null and conversionprice != ''">
+      and conversionprice = #{conversionprice}
+    </if>
+    <if test="inventory != null and inventory != ''">
+      and inventory = #{inventory}
+    </if>
+    <if test="freight != null and freight != ''">
+      and freight = #{freight}
+    </if>
+    <if test="status != null and status != -1">
+      and status = #{status}
+    </if>
+    <if test="regtime != null">
+      and regTime > #{regtime}
+    </if>
+    <if test="endtime != null">
+      and regTime &lt; #{endtime}
+    </if>
+  </sql>
+  <select id="findGoodsRecycleCount" resultType="long">
+    select count(*) from byk_goods where status = 1
+    <include refid="whereSql"></include>
+  </select>
+  <select id="findGoodsRecycleAll" resultType="com.jk.education.shopping.common.model.BykGoods">
+    select * from byk_goods where status = 1
+    <include refid="whereSql"></include>
+  </select>
+  <select id="findGoodsCount" resultType="long">
+    select count(*) from byk_goods where 1 = 1
+    <include refid="whereSql"></include>
+  </select>
+  <select id="findGoodsAll" resultType="com.jk.education.shopping.common.model.BykGoods">
+    select * from byk_goods where 1 = 1
+    <include refid="whereSql"></include>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from byk_goods
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from byk_goods
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.jk.education.shopping.common.model.BykGoods" >
+    insert into byk_goods (id, uid, uname,
+      name, maxTypeId, typeId,
+      minTypeId, typeName, url,
+      intro, info, status,
+      conversionPrice, inventory, freight,
+      essence, regTime)
+    values (#{id,jdbcType=INTEGER}, #{uid,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR},
+      #{name,jdbcType=VARCHAR}, #{maxtypeid,jdbcType=INTEGER}, #{typeid,jdbcType=INTEGER},
+      #{mintypeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+      #{intro,jdbcType=VARCHAR}, #{info,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER},
+      #{conversionprice,jdbcType=INTEGER}, #{inventory,jdbcType=INTEGER}, #{freight,jdbcType=INTEGER},
+      #{essence,jdbcType=INTEGER}, #{regtime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.jk.education.shopping.common.model.BykGoods" >
+    insert into byk_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="uid != null" >
+        uid,
+      </if>
+      <if test="uname != null" >
+        uname,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="maxtypeid != null" >
+        maxTypeId,
+      </if>
+      <if test="typeid != null" >
+        typeId,
+      </if>
+      <if test="mintypeid != null" >
+        minTypeId,
+      </if>
+      <if test="typename != null" >
+        typeName,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="intro != null" >
+        intro,
+      </if>
+      <if test="info != null" >
+        info,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="conversionprice != null" >
+        conversionPrice,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="freight != null" >
+        freight,
+      </if>
+      <if test="essence != null" >
+        essence,
+      </if>
+      <if test="regtime != null" >
+        regTime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="uid != null" >
+        #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null" >
+        #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxtypeid != null" >
+        #{maxtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="mintypeid != null" >
+        #{mintypeid,jdbcType=INTEGER},
+      </if>
+      <if test="typename != null" >
+        #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="conversionprice != null" >
+        #{conversionprice,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="essence != null" >
+        #{essence,jdbcType=INTEGER},
+      </if>
+      <if test="regtime != null" >
+        #{regtime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.jk.education.shopping.common.model.BykGoods" >
+    update byk_goods
+    <set >
+      <if test="uid != null" >
+        uid = #{uid,jdbcType=INTEGER},
+      </if>
+      <if test="uname != null" >
+        uname = #{uname,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="maxtypeid != null" >
+        maxTypeId = #{maxtypeid,jdbcType=INTEGER},
+      </if>
+      <if test="typeid != null" >
+        typeId = #{typeid,jdbcType=INTEGER},
+      </if>
+      <if test="mintypeid != null" >
+        minTypeId = #{mintypeid,jdbcType=INTEGER},
+      </if>
+      <if test="typename != null" >
+        typeName = #{typename,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="intro != null" >
+        intro = #{intro,jdbcType=VARCHAR},
+      </if>
+      <if test="info != null" >
+        info = #{info,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="conversionprice != null" >
+        conversionPrice = #{conversionprice,jdbcType=INTEGER},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=INTEGER},
+      </if>
+      <if test="freight != null" >
+        freight = #{freight,jdbcType=INTEGER},
+      </if>
+      <if test="essence != null" >
+        essence = #{essence,jdbcType=INTEGER},
+      </if>
+      <if test="regtime != null" >
+        regTime = #{regtime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.jk.education.shopping.common.model.BykGoods" >
+    update byk_goods
+    set uid = #{uid,jdbcType=INTEGER},
+      uname = #{uname,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      maxTypeId = #{maxtypeid,jdbcType=INTEGER},
+      typeId = #{typeid,jdbcType=INTEGER},
+      minTypeId = #{mintypeid,jdbcType=INTEGER},
+      typeName = #{typename,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      intro = #{intro,jdbcType=VARCHAR},
+      info = #{info,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
+      conversionPrice = #{conversionprice,jdbcType=INTEGER},
+      inventory = #{inventory,jdbcType=INTEGER},
+      freight = #{freight,jdbcType=INTEGER},
+      essence = #{essence,jdbcType=INTEGER},
+      regTime = #{regtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

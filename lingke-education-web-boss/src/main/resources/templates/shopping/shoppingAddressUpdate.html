@@ -1,0 +1,208 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="/js/shopping/admin.css" rel="stylesheet" type="text/css">
+    <script>
+        /**
+         * 全局变量
+         */
+        var SITE_URL  = 'http://try.51eduline.com';
+        var THEME_URL = 'http://try.51eduline.com/addons/theme/stv1/_static';
+        var APPNAME   = 'mall';
+        var UPLOAD_URL ='http://try.51eduline.com/data/upload';
+        var MID		  = '1677';
+        var UID		  = '1677';
+        var initNums  =  '140';
+        // Js语言变量
+        var LANG = new Array();
+        var info = {icon:0,time:1800,btn:false,title:'',closeBtn:0};
+        var success = {icon:1,time:1800,btn:false,title:'',closeBtn:0};
+        var error = {icon:2,time:1800,btn:false,title:'',closeBtn:0};
+    </script>
+    <script type="text/javascript" src="/js/shopping/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/js/shopping/vue.min.js"></script>
+    <script src="/js/shopping/bootstrap/bootstrap3/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="/js/shopping/bootstrap/bootstrap3/css/bootstrap.css"/>
+    <script src="/js/shopping/My97/WdatePicker.js"></script>
+    <script type="text/javascript" src="/js/shopping/core.js"></script>
+    <script type="text/javascript" src="/js/shopping/module.js"></script>
+    <script src="/js/shopping/bootstrap/bootstrap-bootbox/bootbox.all.min.js"></script>
+    <script src="/js/shopping/common.js"></script>
+    <script src="/js/shopping/module.common.js"></script>
+    <script type="text/javascript" src="/js/shopping/admin.js"></script>
+    <script type="text/javascript" src="/js/shopping/ui.layer.js"></script>
+    <!--非admin应用的后台js脚本统一写在  模板风格对应的app目录下的admin.js中-->
+    <script type="text/javascript" src="/js/shopping/mall/admin.js"></script>
+    <style>
+        @font-face {font-family: 'iconfontNEW';src: url('http://try.51eduline.com/addons/theme/stv1/_static/icon/iconfontNEW.woff?v={$site.sys_version}');}
+        .iconfontNEW{font-family: iconfontNEW;font-style: normal;}
+    </style>
+</head>
+<body>
+<div id="container" class="so_main">
+
+    <div class="tit_tab">
+        <ul>
+            <li>
+                <a href="/page/toShoppingAddress">列表</a></li><li><a href="/page/toShoppingAddressAdd" class="on">添加</a>
+        </li>
+        </ul>
+    </div>
+    <form method="POST" action="http://try.51eduline.com/index.php?app=mall&mod=AdminGoodsAddress&act=addAddress" id="shoppingAddressFormId" name="detail_form">
+        <input type="text" name="id" v-model="address.id" style="display: none">
+        <div class="form2">
+            <dl class="lineD" id="form_v_price">
+                <dt><font color="red"> * </font>用户ID：</dt>
+                <dd>
+                    <!--添加的情况-->
+                    <input name="uid" v-model="address.uid" type="text"  >
+                </dd>
+            </dl>
+            <dl class="lineD">
+                <dt><font color="red"> * </font>省/市/区：</dt>
+                <dd>
+                    <select name="provinceId" id="provinceId" onchange="showProvince(this.value)">
+                        <option value="-1">请选择</option>
+                    </select>
+                    <select name="cityId" id="cityId" onchange="showCounty(this.value)">
+                        <option value="-1">请选择</option>
+                    </select>
+                    <select name="countyId" id="countyId">
+                        <option value="-1">请选择</option>
+                    </select>
+                </dd>
+            </dl>
+
+            <dl class="lineD" id="dl_video">
+                <dt><font color="red"> * </font>详细地址：</dt>
+                <dd>
+                    <textarea name="address" v-model="address.address" id="form_video_intro" rows="10" cols="80"></textarea>
+                </dd>
+            </dl>
+
+            <dl class="lineD">
+                <dt><font color="red"> * </font>收货人姓名：</dt>
+                <dd>
+                    <input name="name" type="text" v-model="address.name" value="" class="s-txt">
+                </dd>
+            </dl>
+
+            <dl class="lineD">
+                <dt><font color="red"> * </font>收货人手机：</dt>
+                <dd>
+                    <input name="photo" type="text" v-model="address.photo" value="" class="s-txt">
+                </dd>
+            </dl>
+            <input type="text" name="status" value="0" style="display: none">
+            <dl class="lineD">
+                <dt>是否设为默认收货地址：</dt>
+                <dd>
+                    <input name="defaultAddress" type="radio" value="0" v-model="address.defaultAddress" >是
+                    <input name="defaultAddress" type="radio" value="1" v-model="address.defaultAddress" >否
+                </dd>
+            </dl>
+            <div class="page_btm">
+                <input type="button" onclick="updateShoppingAddress()" class="btn_b" value="保存" id="orm_submit">
+            </div>
+        </div>
+    </form>
+    <script type="text/javascript">
+        document.onkeydown=function (e) {
+            e=window.event||e;
+            var key = e.keyCode;
+            if ((e.ctrlKey && key == 82) || key == 116) {
+                parent.MainIframe.location.reload();
+                if(document.all) {
+                    e.keyCode = 0;
+                    e.returnValue = false;
+                }else {
+                    e.cancelBubble = true;
+                    e.preventDefault();
+                }
+            }
+        }
+        /**
+         * 初始化对象
+         */
+//表格样式
+        $(document).ready(function(){
+            admin.bindTrOn();});
+    </script>
+
+</body>
+<script>
+    function updateShoppingAddress() {
+        $.ajax({
+            url:'/address/updateShoppingAddress',
+            type:'post',
+            data:$("#shoppingAddressFormId").serialize(),
+            success:function (data){c
+                bootbox.alert(data.message, function(){
+                    location.href = '/page/toShoppingAddress';
+                });
+            }
+        })
+    }
+    function showCounty(pid){
+        $.post('/address/findAreaList',{pid:pid},function (data){
+            var option = '<option value="-1">请选择</option>';
+            for (var i = 0; i < data.length; i++) {
+                option += '<option value='+data[i].id+'>'+data[i].name+'</option>';
+            }
+            $("#countyId").html(option)
+            $("#countyId").val(m.address.countyId)
+        })
+    }
+    function showProvince(pid){
+        $.post('/address/findAreaList',{pid:pid},function (data){
+            var option = '<option value="-1">请选择</option>';
+            for (var i = 0; i < data.length; i++) {
+                option += '<option value='+data[i].id+'>'+data[i].name+'</option>';
+            }
+            $("#cityId").html(option)
+            $("#cityId").val(m.address.cityId)
+            showCounty(m.address.cityId)
+        })
+    }
+    $(function (){
+        initProvinceSelect();
+        initShoppingAddressById();
+    })
+    function initProvinceSelect() {
+        $.post('/address/findAreaList',{pid:0},function (data){
+            var option = '<option value="-1">请选择</option>';
+            for (var i = 0; i < data.length; i++) {
+                option += '<option value='+data[i].id+'>'+data[i].name+'</option>';
+            }
+            $("#provinceId").html(option)
+            $("#provinceId").val(m.address.provinceId);
+            showProvince(m.address.provinceId);
+        })
+    }
+    var m = new Vue({
+        el: '#container',
+        data: {
+            address:{
+                id:'',
+                uid:'',
+                provinceId:'',
+                cityId:'',
+                countyId:'',
+                address:'',
+                name:'',
+                photo:'',
+                status:'',
+                defaultAddress:''
+            }
+        }
+    })
+    var id = '[[${id}]]';
+    function initShoppingAddressById(){
+        $.post('/address/findShoppingAddressById',{id:id},function (data){
+            m.address = data;
+        })
+    }
+</script>
+</html>
